@@ -103,9 +103,9 @@ var (
 
 // Design
 var (
-	ButtonDesign = &Button{Color: color.RGBA{R: 255, G: 255, B: 255, A: 255}, TextSize: unit.Sp(16).Scale(14.0 / 16.0), Background: color.RGBA{R: 135, G: 156, B: 251, A: 255}, BorderRadius: unit.Dp(4), Modifier: strings.ToUpper, Inset: layout.Inset{Top: unit.Dp(10), Right: unit.Dp(12), Bottom: unit.Dp(10), Left: unit.Dp(12)}}
-	InputDesign  = &Input{Font: text.Font{}, TextSize: unit.Dp(14), Color: color.RGBA{R: 100, G: 130, B: 60, A: 255}, HintColor: color.RGBA{R: 120, G: 120, B: 120, A: 255}}
-	InputBackgroundDesign = &Background{Color: color.RGBA{R: 234, G: 236, B: 231, A: 255}, Inset: layout.UniformInset(unit.Dp(13)), BorderRadius: unit.Dp(10)}
+	ButtonDesign = &Button{Color: color.NRGBA{R: 255, G: 255, B: 255, A: 255}, TextSize: unit.Sp(16).Scale(14.0 / 16.0), Background: color.NRGBA{R: 135, G: 156, B: 251, A: 255}, BorderRadius: unit.Dp(4), Modifier: strings.ToUpper, Inset: layout.Inset{Top: unit.Dp(10), Right: unit.Dp(12), Bottom: unit.Dp(10), Left: unit.Dp(12)}}
+	InputDesign  = &Input{Font: text.Font{}, TextSize: unit.Dp(14), Color: color.NRGBA{R: 100, G: 130, B: 60, A: 255}, HintColor: color.NRGBA{R: 120, G: 120, B: 120, A: 255}}
+	InputBackgroundDesign = &Background{Color: color.NRGBA{R: 234, G: 236, B: 231, A: 255}, Inset: layout.UniformInset(unit.Dp(13)), BorderRadius: unit.Dp(10)}
 
 	MarginDesign = layout.Inset{Right: unit.Dp(30), Bottom: unit.Dp(6), Left: unit.Dp(30), Top: unit.Dp(6)}
 )
@@ -115,8 +115,8 @@ var defaultMaterial = material.NewTheme(gofont.Collection())
 type Input struct {
 	Font      text.Font
 	TextSize  unit.Value
-	Color     color.RGBA
-	HintColor color.RGBA
+	Color     color.NRGBA
+	HintColor color.NRGBA
 }
 
 var alreadySetEditor = make(map[*widget.Editor]bool)
@@ -140,10 +140,10 @@ func (i *Input) Layout(gtx layout.Context, editor *widget.Editor, hint string, v
 }
 
 type Button struct {
-	Color        color.RGBA
+	Color        color.NRGBA
 	Font         text.Font
 	TextSize     unit.Value
-	Background   color.RGBA
+	Background   color.NRGBA
 	BorderRadius unit.Value
 	Modifier     func(string) string
 	Inset        layout.Inset
@@ -166,7 +166,7 @@ func (b *Button) Layout(gtx layout.Context, clickable *widget.Clickable, s strin
 }
 
 type Background struct {
-	Color        color.RGBA
+	Color        color.NRGBA
 	BorderRadius unit.Value
 	Inset        layout.Inset
 }
