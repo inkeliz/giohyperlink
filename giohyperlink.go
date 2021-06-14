@@ -14,7 +14,7 @@ var (
 )
 
 var (
-	// InsecureIgnoreVerification will remove any attempt to validate the URL
+	// InsecureIgnoreScheme will remove any attempt to validate the URL
 	// However, even when "false" (which means that the verification is enabled) it's NOT RECOMMENDED to open an
 	// user-supplied URL.
 	InsecureIgnoreScheme bool
