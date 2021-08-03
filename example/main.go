@@ -33,8 +33,6 @@ func main() {
 }
 
 func loop(w *app.Window) error {
-	th := material.NewTheme(gofont.Collection())
-
 	defer w.Close()
 	var ops op.Ops
 	for {
@@ -61,20 +59,20 @@ func loop(w *app.Window) error {
 					}
 				}
 
-				for ButtonAction.Clicked() {
+				if ButtonAction.Clicked() {
 					if err := giohyperlink.Open(InputAction.Text()); err != nil {
 						log.Println(err)
 					}
 				}
 
-				render(gtx, th)
+				render(gtx)
 				e.Frame(gtx.Ops)
 			}
 		}
 	}
 }
 
-func render(gtx layout.Context, th *material.Theme) layout.Dimensions {
+func render(gtx layout.Context) layout.Dimensions {
 	return layout.Flex{Axis: layout.Vertical, Spacing: layout.SpaceSides}.Layout(gtx,
 
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
@@ -131,7 +129,7 @@ func (i *Input) Layout(gtx layout.Context, editor *widget.Editor, hint string, v
 	if value != "" {
 		if _, ok := alreadySetEditor[editor]; !ok {
 			editor.SetText(value)
-			editor.Move(editor.Len())
+			editor.MoveCaret(editor.Len(), editor.Len())
 			alreadySetEditor[editor] = true
 		}
 	}
