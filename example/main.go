@@ -182,9 +182,9 @@ func (b *Background) Layout(gtx layout.Context, w layout.Widget) layout.Dimensio
 			background := f32.Rectangle{Max: f32.Point{X: float32(dimensions.Size.X), Y: float32(dimensions.Size.Y)}}
 
 			rr := float32(gtx.Px(b.BorderRadius))
-			clip.RRect{Rect: background, NE: rr, NW: rr, SE: rr, SW: rr}.Op(gtx.Ops).Add(gtx.Ops)
-
+			stack := clip.RRect{Rect: background, NE: rr, NW: rr, SE: rr, SW: rr}.Op(gtx.Ops).Push(gtx.Ops)
 			paint.Fill(gtx.Ops, b.Color)
+			stack.Pop()
 
 			return dimensions
 		}),
