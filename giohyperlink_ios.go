@@ -25,6 +25,7 @@ func listenEvents(_ event.Event) {
 }
 
 func open(u *url.URL) error {
+	u.RawQuery = u.Query().Encode()
 	cURL := C.CString(u.String())
 	C.openLink(cURL)
 	C.free(unsafe.Pointer(cURL))
