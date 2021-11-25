@@ -4,10 +4,8 @@ package giohyperlink
 
 import (
 	"gioui.org/io/event"
+	"golang.org/x/sys/windows"
 	"net/url"
-	"os/exec"
-	"strings"
-	"syscall"
 )
 
 func listenEvents(_ event.Event) {
@@ -15,8 +13,5 @@ func listenEvents(_ event.Event) {
 }
 
 func open(u *url.URL) error {
-	cmd := exec.Command("cmd", `/C`, "start", strings.NewReplacer("&", "^&").Replace(u.String()))
-	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-
-	return cmd.Run()
+	return windows.ShellExecute(0, nil, windows.StringToUTF16Ptr(u.String()), nil, nil, windows.SW_SHOWNORMAL)
 }
