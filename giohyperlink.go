@@ -2,21 +2,21 @@ package giohyperlink
 
 import (
 	"errors"
-	"gioui.org/io/event"
 	"net/url"
+
+	"gioui.org/io/event"
 )
 
 var (
-	// ErrNotReady may ocurr when try to open an URL too earlier
+	// ErrNotReady may occur when try to open a URL before the initialization is done.
 	ErrNotReady = errors.New("some needed library was not loaded yet, make use that you are using ListenEvents()")
-	// ErrInvalidURL occur when provide an invalid URL (only HTTPS/HTTP is accepted)
+	// ErrInvalidURL occur when provide an invalid URL, like a non http/https URL.
 	ErrInvalidURL = errors.New("given url is invalid")
 )
 
 var (
 	// InsecureIgnoreScheme will remove any attempt to validate the URL
-	// However, even when "false" (which means that the verification is enabled) it's NOT RECOMMENDED to open an
-	// user-supplied URL.
+	// It's "false" by default. Set it to "true" if you are using a custom scheme (like "myapp://").
 	InsecureIgnoreScheme bool
 )
 
@@ -25,19 +25,19 @@ var (
 //
 // Similar as:
 //
-// select {
-// case e := <-w.Events():
-// giohyperlink.ListenEvents(e)
+//	select {
+//	case e := <-w.Events():
+//		giohyperlink.ListenEvents(e)
 //
-// switch e := e.(type) {
-// (( ... your code ...  ))
+//		switch e := e.(type) {
+//	     (( ... your code ...  ))
 func ListenEvents(event event.Event) {
 	listenEvents(event)
 }
 
 // OpenURL opens the given url.URL in the browser (or equivalent app)
 func OpenURL(u *url.URL) error {
-	if u == nil || ((u.Scheme != "http" && u.Scheme != "https") && InsecureIgnoreScheme == false) {
+	if u == nil || u.Scheme == "" || ((u.Scheme != "http" && u.Scheme != "https") && InsecureIgnoreScheme == false) {
 		return ErrInvalidURL
 	}
 
@@ -46,6 +46,10 @@ func OpenURL(u *url.URL) error {
 
 // Open opens the given string url in the browser (or equivalent app).
 func Open(uri string) error {
+	if uri == "" {
+		return ErrInvalidURL
+	}
+
 	u, err := url.Parse(uri)
 	if err != nil {
 		return ErrInvalidURL
